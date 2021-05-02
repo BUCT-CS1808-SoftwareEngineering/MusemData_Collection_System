@@ -11,12 +11,15 @@ class MuseumItem(scrapy.Item):
     # name = scrapy.Field()
     museumID = scrapy.Field()
     museumName = scrapy.Field()
+    museumForName = scrapy.Field()
     introduction = scrapy.Field()
     time = scrapy.Field() 
     # opentime=scrapy.Field()
-    museumLink = scrapy.Field()
+    # museumLink = scrapy.Field()
     location = scrapy.Field()
-    communication = scrapy.Field()
+    # communication = scrapy.Field()
+    category = scrapy.Field()
+    price = scrapy.Field()
     # latiLong = scrapy.Field()
 
 class collectionItem(scrapy.Item):

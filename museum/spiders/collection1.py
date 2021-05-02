@@ -35,7 +35,7 @@ class Collection1Spider(scrapy.Spider):
                 detail_url = 'https://www.dpm.org.cn/' + li.xpath('./td/a/@href').extract_first()
                 yield scrapy.Request(detail_url,callback=self.parse_detail,meta={'item':item})
         
-        if self.page_num <= 5:
+        if self.page_num <= 110:
             new_url = (self.url%self.page_num)
             self.page_num += 1
             yield scrapy.Request(new_url,callback=self.parse)
