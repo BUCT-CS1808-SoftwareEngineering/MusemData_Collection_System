@@ -32,9 +32,20 @@ class collectionItem(scrapy.Item):
 class exhibitionItem(scrapy.Item):
     museumID = scrapy.Field()
     exhibID = scrapy.Field()
+    exhibImg = scrapy.Field()
     exhibName = scrapy.Field()
-    exhibTime = scrapy.Field()
-    exhibLocation = scrapy.Field()
+    # exhibTime = scrapy.Field()
+    # exhibLocation = scrapy.Field()
     exhibIntro = scrapy.Field()
+
+
+class educationItem(scrapy.Item):
+    museumID = scrapy.Field()
+    eduID = scrapy.Field()
+    eduName = scrapy.Field()
+    eduTime = scrapy.Field()
+    eduContent = scrapy.Field()
+    eduImg = scrapy.Field()
+    eduUrl = scrapy.Field()
 
     

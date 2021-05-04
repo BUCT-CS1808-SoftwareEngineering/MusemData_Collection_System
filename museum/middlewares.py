@@ -7,53 +7,54 @@ from scrapy import signals
 
 # useful for handling different item types with a single interface
 from itemadapter import is_item, ItemAdapter
+from scrapy.http import HtmlResponse
+from time import sleep
 
+# class MuseumSpiderMiddleware:
+#     # Not all methods need to be defined. If a method is not defined,
+#     # scrapy acts as if the spider middleware does not modify the
+#     # passed objects.
 
-class MuseumSpiderMiddleware:
-    # Not all methods need to be defined. If a method is not defined,
-    # scrapy acts as if the spider middleware does not modify the
-    # passed objects.
+#     @classmethod
+#     def from_crawler(cls, crawler):
+#         # This method is used by Scrapy to create your spiders.
+#         s = cls()
+#         crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
+#         return s
 
-    @classmethod
-    def from_crawler(cls, crawler):
-        # This method is used by Scrapy to create your spiders.
-        s = cls()
-        crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
-        return s
+#     def process_spider_input(self, response, spider):
+#         # Called for each response that goes through the spider
+#         # middleware and into the spider.
 
-    def process_spider_input(self, response, spider):
-        # Called for each response that goes through the spider
-        # middleware and into the spider.
+#         # Should return None or raise an exception.
+#         return None
 
-        # Should return None or raise an exception.
-        return None
+#     def process_spider_output(self, response, result, spider):
+#         # Called with the results returned from the Spider, after
+#         # it has processed the response.
 
-    def process_spider_output(self, response, result, spider):
-        # Called with the results returned from the Spider, after
-        # it has processed the response.
+#         # Must return an iterable of Request, or item objects.
+#         for i in result:
+#             yield i
 
-        # Must return an iterable of Request, or item objects.
-        for i in result:
-            yield i
+#     def process_spider_exception(self, response, exception, spider):
+#         # Called when a spider or process_spider_input() method
+#         # (from other spider middleware) raises an exception.
 
-    def process_spider_exception(self, response, exception, spider):
-        # Called when a spider or process_spider_input() method
-        # (from other spider middleware) raises an exception.
+#         # Should return either None or an iterable of Request or item objects.
+#         pass
 
-        # Should return either None or an iterable of Request or item objects.
-        pass
+#     def process_start_requests(self, start_requests, spider):
+#         # Called with the start requests of the spider, and works
+#         # similarly to the process_spider_output() method, except
+#         # that it doesn’t have a response associated.
 
-    def process_start_requests(self, start_requests, spider):
-        # Called with the start requests of the spider, and works
-        # similarly to the process_spider_output() method, except
-        # that it doesn’t have a response associated.
+#         # Must return only requests (not items).
+#         for r in start_requests:
+#             yield r
 
-        # Must return only requests (not items).
-        for r in start_requests:
-            yield r
-
-    def spider_opened(self, spider):
-        spider.logger.info('Spider opened: %s' % spider.name)
+#     def spider_opened(self, spider):
+#         spider.logger.info('Spider opened: %s' % spider.name)
 
 
 class MuseumDownloaderMiddleware:
@@ -79,15 +80,42 @@ class MuseumDownloaderMiddleware:
         # - or raise IgnoreRequest: process_exception() methods of
         #   installed downloader middleware will be called
         return None
-
+    #拦截响应对象进行篡改
     def process_response(self, request, response, spider):
         # Called with the response returned from the downloader.
-
+        # 通过url指定request
+        # 通过request指定response
         # Must either;
         # - return a Response object
         # - return a Request object
         # - or raise IgnoreRequest
-        return response
+        if request.url in spider.new_urls:
+            #针对定位到的篡改
+            #实例化新的响应对象
+            #基于selenium
+            bro = spider.bro
+            bro.get(request.url)
+            bro.refresh()
+            sleep(5)
+            page_text = bro.page_source
+            new_response = HtmlResponse(url = request.url,body = page_text,encoding = 'utf-8',request = request)
+
+            return new_response
+
+        elif request.url in spider.deep_urls:
+            #针对定位到的篡改
+            #实例化新的响应对象
+            #基于selenium
+            brom = spider.brom
+            brom.get(request.url)
+            sleep(5)
+            page_text = brom.page_source
+            deep_response = HtmlResponse(url = request.url,body = page_text,encoding = 'utf-8',request = request)
+
+            return deep_response
+        else:
+            return response
+        # return response
 
     def process_exception(self, request, exception, spider):
         # Called when a download handler or a process_request()

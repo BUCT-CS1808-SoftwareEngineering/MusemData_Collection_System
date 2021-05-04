@@ -12,6 +12,7 @@ class Collection1Spider(scrapy.Spider):
     page_num = 2
 
     def parse_detail(self, response):
+        item = response.meta["item"]
         # coll_name = response.xpath('//*[@id="hl_content"]/div/div[2]/h3/span/text()').extract_first()
         coll_desc = response.xpath('//*[@id="hl_content"]/div/div[2]/div[1]/div[1]/p/text()').extract()
         coll_desc = ''.join(coll_desc)
