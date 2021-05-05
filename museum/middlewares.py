@@ -113,6 +113,39 @@ class MuseumDownloaderMiddleware:
             deep_response = HtmlResponse(url = request.url,body = page_text,encoding = 'utf-8',request = request)
 
             return deep_response
+        elif request.url in spider.js1_urls:
+            #针对定位到的篡改
+            #实例化新的响应对象
+            #基于selenium
+            bro = spider.bro
+            bro.get(request.url)
+            bro.refresh()
+            # bro.refresh()
+            sleep(5)
+            for i in range(3):
+                bro.find_element_by_css_selector("div.load-more").click()
+            sleep(5)
+            page_text = bro.page_source
+            js_response = HtmlResponse(url = request.url,body = page_text,encoding = 'utf-8',request = request)
+
+            return js_response
+        elif request.url in spider.js2_urls:
+            #针对定位到的篡改
+            #实例化新的响应对象
+            #基于selenium
+            bro = spider.bro
+            bro.get(request.url)
+            bro.refresh()
+            # bro.refresh()
+            sleep(5)
+            for i in range(5):
+                bro.find_element_by_css_selector(".layui-flow-more > a:nth-child(1)").click()
+                sleep(3)
+            sleep(5)
+            page_text = bro.page_source
+            js_response = HtmlResponse(url = request.url,body = page_text,encoding = 'utf-8',request = request)
+
+            return js_response
         else:
             return response
         # return response

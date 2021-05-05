@@ -1,13 +1,20 @@
 import scrapy
 from museum.items import collectionItem
 from selenium import webdriver
-# scrapy crawl collection6
-class Collection6Spider(scrapy.Spider):
-    name = 'collection6'
-    start_urls = ['http://www.njmuseum.com/zh/collectionList']
+from lxml import etree
+# scrapy crawl collection8
+class Collection8Spider(scrapy.Spider):
+    name = 'collection8'
+    # allowed_domains = ['www.xxx.com']
+    start_urls = ['https://www.shanghaimuseum.net/mu/frontend/pg/collection/antique']
+
+
+    # {"params":{"langCode":"CHINESE","antiqueSourceCode":"ANTIQUE_SOURCE_1"},"page":1,"limit":20}
+    start_urls = ['https://www.shanghaimuseum.net/mu/frontend/pg/collection/antique']
     new_urls = []
     deep_urls = []
-    js1_urls = ['http://www.njmuseum.com/zh/collectionList']
+    js1_urls = []
+    js2_urls = ['https://www.shanghaimuseum.net/mu/frontend/pg/collection/antique']
     # url = 'http://www.njmuseum.com/zh/collectionList'
     page_num = 0
 
@@ -33,14 +40,18 @@ class Collection6Spider(scrapy.Spider):
     #实例化一个
     def __init__(self):
         self.bro = webdriver.Firefox()
-        self.bro.set_window_size(960, 960)
         self.brom = webdriver.Firefox()
         
     def parse(self, response):
-        # i = 0
+        # for i in range(3):
+        #     self.bro.find_element_by_css_selector(".layui-flow-more > a:nth-child(1)").click()
+        
+            # page_text = self.bro.page_source
+
+        # self.bro()
         # print(self.page_num)
-        # for i in range(112):
-        #     self.bro.find_element_by_css_selector('.load-more').click()
+        # for i in range(self.page_num):
+        #     self.bro.find_element_by_class_name('btn-next').click()
         # if self.page_num != 1:
         #     self.bro.find_element_by_class_name('btn-next').click()
         # page = str(self.page_num)
@@ -49,26 +60,24 @@ class Collection6Spider(scrapy.Spider):
             # i += 1
         item = collectionItem()
         # //*[@id="building2"]/div/div[2]/table/tbody
-        coll_list = response.xpath('/html/body/div/div[3]/div/section/div[3]/div[2]/div[2]/div')
-        
+        coll_list = response.xpath('//*[@id="list1"]/li')
         # print(coll_list)
         # for i in range(2):
         for div in coll_list:
             # if li.xpath('./td/a/text()').extract_first() != None:
                 # //*[@id="227613"]/text()
-            coll_name = div.xpath('./a/div[2]/h5/text()').extract_first()
+            coll_name = div.xpath('./div[1]/div[2]/text()').extract_first()
             # coll_name = ''.join(coll_name)
             print(coll_name)
             # print(li.xpath('./td/a/@href').extract_first())
-            detail_url = 'http://www.njmuseum.com' + div.xpath('./a/@href').extract_first()
-            img = div.xpath('./a/div[1]/img/@data-src').extract_first()
-            # if img[0] == '/':
-            #     img = 'http://www.zhejiangmuseum.com' + img
-            img = 'http://www.njmuseum.com' + img
-            print(img)
+            detail_url = 'https://www.shanghaimuseum.net/mu/' + div.xpath('./div[1]/div[1]/a/@href').extract_first()
+            # img = div.xpath('./div[1]/div[1]/a/img/@src').extract_first()
+            # # if img[0] == '/':
+            # #     img = 'http://www.zhejiangmuseum.com' + img
+            # img = 'https://www.shanghaimuseum.net/mu/' + img
+            # print(img)
             self.deep_urls.append(detail_url)
             yield scrapy.Request(detail_url,callback=self.parse_detail,meta={'item':item})
-            # self.bro.find_element_by_class_name('btn-next').click()
         # if self.page_num <= 3:
         #     # new_url = (self.url%self.page_num)
             
@@ -82,7 +91,13 @@ class Collection6Spider(scrapy.Spider):
         # time = 'None'
         # if response.xpath('//*[@id="app"]/div/div/div/div/main/div/div[2]/div[2]/div[1]/div[1]/p/text()').extract():
         #     time = response.xpath('//*[@id="app"]/div/div/div/div/main/div/div[2]/div[2]/div[1]/div[1]/p/text()').extract_first()
-        coll_desc = response.xpath('//*[@id="pdfDom"]/div[2]/div/div//text()').extract()
+        img = response.xpath('/html/body/div[5]/div/div/div/div[1]/div[1]/div/div/div/a/img/@src').extract()
+        img = ''.join(img)
+            # if img[0] == '/':
+            #     img = 'http://www.zhejiangmuseum.com' + img
+        img = 'https://www.shanghaimuseum.net/mu/' + img
+        print(img)
+        coll_desc = response.xpath('//*[@id="more"]//text()').extract()
         coll_desc = ''.join(coll_desc)
         print(coll_desc)
         # if response.xpath('//*[@id="app"]/div/div/div/div/main/div/div[3]/text()').extract():

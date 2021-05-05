@@ -1,5 +1,10 @@
 import scrapy
 from museum.items import collectionItem
+
+# scrapy genspider collection www.xxx.com
+# scrapy genspider exhibition www.xxx.com
+# scrapy genspider education www.xxx.com
+
 # scrapy crawl collection1
 # 故宫 
 
