@@ -9,6 +9,7 @@ def switch(s):
         for i in s:
             ss+=i
         return ss
+        #1
 def switch1(s):
     ss=''
     ff=0
