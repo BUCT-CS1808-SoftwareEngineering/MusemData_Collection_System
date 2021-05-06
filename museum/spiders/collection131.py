@@ -25,7 +25,7 @@ class Collection124Spider(scrapy.Spider):
     
     cnt=1
     def parse(self, response):
-        #scrapy crawl collection1
+        #scrapy crawl collection11
         item = collectionItem()
         x=response.xpath('//*[@id="container"]/li')
         url1='http://www.mtybwg.org.cn/cangpin/112-1.aspx'
