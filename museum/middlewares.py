@@ -144,6 +144,23 @@ class MuseumDownloaderMiddleware:
             sleep(5)
             page_text = bro.page_source
             js_response = HtmlResponse(url = request.url,body = page_text,encoding = 'utf-8',request = request)
+        
+        elif request.url in spider.js3_urls:
+            #针对定位到的篡改
+            #实例化新的响应对象
+            #基于selenium
+            bro = spider.bro
+            bro.get(request.url)
+            bro.refresh()
+            # bro.refresh()
+            # sleep(5)
+            # for i in range(5):
+            bro.find_element_by_css_selector("body > div > div.ql-main > div > div.list-tab > div > div.ql-fl > div > ul > li:nth-child(4)").click()
+            # body > div > div.ql-main > div > div.list-tab > div > div.ql-fl > div > ul > li.active
+                # sleep(3)
+            sleep(5)
+            page_text = bro.page_source
+            js_response = HtmlResponse(url = request.url,body = page_text,encoding = 'utf-8',request = request)
 
             return js_response
         else:

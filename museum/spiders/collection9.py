@@ -27,7 +27,7 @@ class Collection9Spider(scrapy.Spider):
 
     def parse(self, response):
         item = collectionItem()
-        maxn = response.xpath('//*[@class="active"]/text()').extract_first()
+        # maxn = response.xpath('//*[@class="active"]/text()').extract_first()
         # maxn = ''.join(maxn)
         # maxn = int(maxn)
         # //*[@id="building2"]/div/div[2]/table/tbody
