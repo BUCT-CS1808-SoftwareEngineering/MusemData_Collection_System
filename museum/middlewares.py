@@ -144,7 +144,8 @@ class MuseumDownloaderMiddleware:
             sleep(5)
             page_text = bro.page_source
             js_response = HtmlResponse(url = request.url,body = page_text,encoding = 'utf-8',request = request)
-        
+
+            return js_response
         elif request.url in spider.js3_urls:
             #针对定位到的篡改
             #实例化新的响应对象
