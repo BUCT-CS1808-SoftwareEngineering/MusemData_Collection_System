@@ -7,9 +7,8 @@ from museum.items import exhibitionItem
 class Exhibition14Spider(scrapy.Spider):
     name = 'exhibition14'
     # allowed_domains = ['www.xxx.com']
-    start_urls = ['http://39.98.66.177/QinLing/PhotoGallery']
-
     # start_urls = ['http://39.98.66.177/QinLing/PhotoGallery']
+    start_urls = ['http://39.98.66.177/QinLing/PhotoGallery']
     new_urls = []
     deep_urls = []
     js1_urls = []
