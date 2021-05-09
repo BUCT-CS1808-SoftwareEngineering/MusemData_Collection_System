@@ -1,5 +1,5 @@
 import scrapy
-from museum.items import exhibitionItem 
+from museum.items import educationItem 
 import re
 import json
 # scrapy crawl education18
@@ -29,7 +29,7 @@ class Education18Spider(scrapy.Spider):
 
 
     def parse(self, response):
-        item = exhibitionItem()
+        item = educationItem()
         div_list = response.xpath('/html/body/div/div[3]/div[2]/ul/li')
         for div in div_list:
             # img = div.xpath('./div/a/div[1]/img/@src').extract_first()
