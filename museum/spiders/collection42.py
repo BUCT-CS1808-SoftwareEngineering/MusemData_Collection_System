@@ -15,17 +15,19 @@ class Collection42Spider(scrapy.Spider):
     ]
 
     def parse(self, response):
+        item = collectionItem()
         li_list = response.xpath(
             "//div[@class='cangpin-pic']//li/span[@class='xx']/a/@href").getall()
         for content_url in li_list:
-            yield scrapy.Request(content_url, callback=self.content_parse)
+            yield scrapy.Request(content_url, callback=self.content_parse,meta={'item':item})
         # 读取下一页
         next_page = response.xpath("//a[@title='»']/@href").get()
         if next_page != None:
             yield scrapy.Request(next_page, callback=self.parse)
 
     def content_parse(self, response):
-        item = collectionItem()
+        item = response.meta["item"]
+        # item = collectionItem()
         doc = response.xpath("//div[@class='zhanlan-pic']")
         collectionName = doc.xpath("./div[@class='list-right-bt']/text()").get()
         collectionImageUrl= "http://www.hylae.com" + doc.xpath(".//img/@src").get()
