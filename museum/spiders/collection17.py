@@ -1,6 +1,6 @@
 import scrapy
 from selenium import webdriver
-from museum.items import educationItem
+from museum.items import collectionItem
 import json
 # scrapy crawl collection17
 class Collection17Spider(scrapy.Spider):
@@ -9,7 +9,7 @@ class Collection17Spider(scrapy.Spider):
     start_urls = ['http://www.3gmuseum.cn/web/cultural/findCulturalPage.do?pageSize=5000&pageNumber=1&itemno=4028808a5e3b12de015e3b2c79340003&type=&level=&years=&name=&byType=']
 
     def parse(self, response):
-        item = educationItem()
+        item = collectionItem()
         coll_list = json.loads(response.text)["list"]
         for i in coll_list:
             collectionName = i["name"]
