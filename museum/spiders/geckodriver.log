@@ -200,3 +200,54 @@ console.warn: SearchSettings: "get: No settings file exists, new profile?" (new 
 1620823863759	Marionette	INFO	Listening on port 7730
 1620823864256	Marionette	WARN	TLS certificate errors will be ignored for this session
 ^C1620824143832	Marionette	INFO	Stopped listening on port 7730
+1620908271940	geckodriver	INFO	Listening on 127.0.0.1:3479
+1620908274879	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\lenovo\\AppData\\Local\\Temp\\rust_mozprofileMqFVEw"
+1620908275267	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1620908277333	Marionette	INFO	Listening on port 3489
+1620908277564	Marionette	WARN	TLS certificate errors will be ignored for this session
+1620908278588	Marionette	INFO	Stopped listening on port 3489
+console.error: services.settings: 
+  main/message-groups Signature failed  TypeError: NetworkError when attempting to fetch resource.
+1620908289603	geckodriver	INFO	Listening on 127.0.0.1:3546
+1620908292660	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\lenovo\\AppData\\Local\\Temp\\rust_mozprofileHVl4yK"
+1620908293150	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1620908295062	Marionette	INFO	Listening on port 3566
+1620908295322	Marionette	WARN	TLS certificate errors will be ignored for this session
+1620908351176	Marionette	INFO	Stopped listening on port 3566
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1620908362813	geckodriver	INFO	Listening on 127.0.0.1:3703
+1620908365726	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\lenovo\\AppData\\Local\\Temp\\rust_mozprofile5nhuFC"
+1620908366048	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1620908367887	Marionette	INFO	Listening on port 3713
+1620908368388	Marionette	WARN	TLS certificate errors will be ignored for this session
+1620908422635	Marionette	INFO	Stopped listening on port 3713
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+JavaScript error: resource://gre/modules/CrashManager.jsm, line 833: NotAllowedError: Shutting down and refusing additional I/O tasks
+1620908455650	geckodriver	INFO	Listening on 127.0.0.1:3877
+1620908458712	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\lenovo\\AppData\\Local\\Temp\\rust_mozprofileb5siDw"
+1620908459045	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1620908460925	Marionette	INFO	Listening on port 3889
+1620908461398	Marionette	WARN	TLS certificate errors will be ignored for this session
+1620908516742	Marionette	INFO	Stopped listening on port 3889
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1620908628435	geckodriver	INFO	Listening on 127.0.0.1:4149
+1620908631526	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-foreground" "-no-remote" "-profile" "C:\\Users\\lenovo\\AppData\\Local\\Temp\\rust_mozprofileTKMOys"
+1620908631845	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1620908633570	Marionette	INFO	Listening on port 4160
+1620908633593	Marionette	WARN	TLS certificate errors will be ignored for this session
+1620908688506	Marionette	INFO	Stopped listening on port 4160
+JavaScript error: resource://gre/modules/CrashManager.jsm, line 833: NotAllowedError: Shutting down and refusing additional I/O tasks
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
