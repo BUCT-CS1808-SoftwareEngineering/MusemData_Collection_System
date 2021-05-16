@@ -23,25 +23,33 @@ class Collection1Spider(scrapy.Spider):
         coll_desc = ''.join(coll_desc)
         coll_img = response.xpath('//*[@id="hl_content"]/div/div[1]/div/div/div/img/@src').extract_first()
         # print(coll_name)
-        print(coll_desc)
-        print(coll_img)
-        # yield item
+        # print(coll_desc)
+        item['collectionIntroduction'] = coll_desc
+        print(item['collectionIntroduction'])
+        # print(coll_img)
+        item['collectionImage'] = coll_img
+        print(item['collectionImage'])
+        yield item
 
     def parse(self, response):
-        item = collectionItem()
+        
         # //*[@id="building2"]/div/div[2]/table/tbody
         coll_list = response.xpath('//*[@id="building2"]/div/div[2]/table/tbody/tr')
         for li in coll_list:
             if li.xpath('./td/a/text()').extract_first() != None:
+                item = collectionItem()
                 # //*[@id="227613"]/text()
                 coll_name = li.xpath('./td/a/text()').extract_first()
                 # coll_name = ''.join(coll_name)
-                print(coll_name)
+                # print(coll_name)
+                item['collectionName'] = coll_name
+                print(item['collectionName'])
+                item['museumID'] = 1
             # print(li.xpath('./td/a/@href').extract_first())
                 detail_url = 'https://www.dpm.org.cn/' + li.xpath('./td/a/@href').extract_first()
                 yield scrapy.Request(detail_url,callback=self.parse_detail,meta={'item':item})
         
-        if self.page_num <= 110:
+        if self.page_num <= 2:
             new_url = (self.url%self.page_num)
             self.page_num += 1
             yield scrapy.Request(new_url,callback=self.parse)

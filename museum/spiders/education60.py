@@ -3,6 +3,7 @@ from museum.items import educationItem
 import json
 
 
+
 class Education60Spider(scrapy.Spider):
     name = 'education60'
     start_urls = [

@@ -65,7 +65,9 @@ LOG_LEVEL = 'ERROR'
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'museum.pipelines.MuseumPipeline': 300,
+   'museum.pipelines.mysqlPipeLine': 300,
+   # 'museum.pipelines.MuseumPipeline': 400,
+   # 'museum.pipelines.MuseumTestPipeline':500,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

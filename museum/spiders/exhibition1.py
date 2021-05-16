@@ -8,8 +8,8 @@ import re
 class Exhibition1Spider(scrapy.Spider):
     name = 'exhibition1'
     # allowed_domains = ['www.xxx.com']
-    # start_urls = ['https://www.dpm.org.cn/shows.html']
-    start_urls =['https://www.dpm.org.cn/searchs/exhibition/category_id/301/pagesize/6/tpl_file/shows_temporary2_2/exhibition_status/0/showstype/301/order/1/p/1.html']
+    start_urls = ['https://www.dpm.org.cn/searchs/exhibition/category_id/301/pagesize/6.html?0.13021943427510996&tpl_file=shows_temporary2_2&exhibition_status=0&showstype=301&order=1']
+    # start_urls =['https://www.dpm.org.cn/searchs/exhibition/category_id/301/pagesize/6/tpl_file/shows_temporary2_2/exhibition_status/0/showstype/301/order/1/p/1.html']
 
     headers = {
         'Accept': '*/*',
@@ -33,34 +33,48 @@ class Exhibition1Spider(scrapy.Spider):
 
     def parse_detail(self, response):
         item = response.meta["item"]
-        exhib_time = response.xpath('/html/body/div/div[3]/div[1]/div/div[3]/div/p[1]/span[1]/em/text()').extract_first()
-        exhib_location = response.xpath('/html/body/div/div[3]/div[1]/div/div[3]/div/p[1]/span[2]/em/text()').extract_first()
-        exhib_intro = response.xpath('/html/body/div/div[3]/div[1]/div/div[3]/div/p[3]/text()').extract()
-        s = ''
-        for i in range(len(exhib_intro)):
-            exhib_intro[i] = str(exhib_intro[i])
-            s += re.sub(r'\\u3000','',exhib_intro[i])     
-        print(exhib_time)
-        print(exhib_location)
-        print(s)
+        print(item["exhibName"])
+        print(item['exhibImg'])
+        # exhib_time = response.xpath('/html/body/div/div[3]/div[1]/div/div[3]/div/p[1]/span[1]/em/text()').extract_first()
+        # exhib_location = response.xpath('/html/body/div/div[3]/div[1]/div/div[3]/div/p[1]/span[2]/em/text()').extract_first()
+        exhib_intro = '暂无'
+        if response.xpath('//*[@id="_exName"]/div[2]//text()').extract():
+            exhib_intro = response.xpath('//*[@id="_exName"]/div[2]//text()').extract()
+            exhib_intro = ''.join(exhib_intro)
+        # s = ''
+        # for i in range(len(exhib_intro)):
+        #     exhib_intro[i] = str(exhib_intro[i])
+        #     s += re.sub(r'\\u3000','',exhib_intro[i])     
+        # print(exhib_time)
+        # print(exhib_location)
+        item["exhibIntro"] = exhib_intro
+        print(item["exhibIntro"])
         yield item
 
     # https://www.dpm.org.cn/searchs/exhibition/category_id/301/pagesize/6/tpl_file/shows_temporary2_2/exhibition_status/0/showstype/301/order/1/p/2.html
 
     def parse(self, response):
-        item = exhibitionItem()
         # m = response.xpath('//*[@id="temporary2_list"]').extract()
         # print(m)
         # //*[@id="temporary2_list"]/div[1]
         # div_list = response.xpath('//*[@id="temporary2_list"]/div[1]/div')
         div_list = response.xpath('//*[@class="list clearfix"]/div')
         for div in div_list:
+            item = exhibitionItem()
             # //*[@id="temporary2_list"]/div[1]/div[1]/div[2]/div/div[1]/a[1]
             exhib_name = div.xpath('./div[2]/div/div[1]/a[1]/text()').extract_first()
-            if exhib_name != None:
-                print(exhib_name)
-            detail_url = div.xpath('./div[2]/div/div[1]/a[1]/@href').extract_first()
-            if detail_url != None:
-                yield scrapy.Request(detail_url,callback=self.parse_detail,meta={'item':item})
+            # if exhib_name != None:
+                # print(exhib_name)
+            item["museumID"] = 1
+            item["exhibName"] = exhib_name
+            # print(item["exhibName"])
+            img = 'https://www.dpm.org.cn' + div.xpath('./div[1]/a/img/@src').extract_first()
+            item['exhibImg'] = img
+            # print(item['exhibImg'])
+            detail_url = div.xpath('./div[1]/a/@href').extract_first()
+            if detail_url[0] == '/':
+                detail_url = 'https://www.dpm.org.cn' + detail_url
+            # print(detail_url)
+            yield scrapy.Request(detail_url,callback=self.parse_detail,meta={'item':item})
 
 
