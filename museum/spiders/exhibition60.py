@@ -1,8 +1,8 @@
 import scrapy
 from museum.items import exhibitionItem
 
-class Exhibition48Spider(scrapy.Spider):
-    name = 'exhibition48'
+class Exhibition60Spider(scrapy.Spider):
+    name = 'exhibition60'
     start_urls = [
         "http://www.gzmuseum.com/zl/zlhg/"
     ]
