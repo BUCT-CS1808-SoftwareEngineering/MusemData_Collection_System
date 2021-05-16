@@ -4,7 +4,7 @@ import json
 
 
 class Education47Spider(scrapy.Spider):
-    name = 'education47'
+    name = 'education60'
     start_urls = [
         "http://www.gzsmzmuseum.cn/list-19.html"
     ]

@@ -2,6 +2,11 @@ import scrapy
 from museum.items import collectionItem
 from selenium import webdriver
 from lxml import etree
+# from selenium.webdriver.common.by import By
+# from selenium.webdriver.common.keys import Keys
+# from selenium.webdriver.firefox.options import Options
+# from selenium.webdriver.support import expected_conditions as expected
+# from selenium.webdriver.support.wait import WebDriverWait
 # scrapy crawl collection8
 class Collection8Spider(scrapy.Spider):
     name = 'collection8'
@@ -39,8 +44,11 @@ class Collection8Spider(scrapy.Spider):
 
     #实例化一个
     def __init__(self):
-        self.bro = webdriver.Firefox()
-        self.brom = webdriver.Firefox()
+        options = webdriver.FirefoxOptions()
+        options.add_argument('-headless')
+        self.bro = webdriver.Firefox(options=options)
+        self.brom = webdriver.Firefox(options=options)
+
         
     def parse(self, response):
         # for i in range(3):
@@ -58,17 +66,19 @@ class Collection8Spider(scrapy.Spider):
         
         # self.bro.find_element_by_xpath(("//*[text()='%d']")%self.page_num).click()
             # i += 1
-        item = collectionItem()
         # //*[@id="building2"]/div/div[2]/table/tbody
         coll_list = response.xpath('//*[@id="list1"]/li')
         # print(coll_list)
         # for i in range(2):
         for div in coll_list:
+            item = collectionItem()
             # if li.xpath('./td/a/text()').extract_first() != None:
                 # //*[@id="227613"]/text()
             coll_name = div.xpath('./div[1]/div[2]/text()').extract_first()
             # coll_name = ''.join(coll_name)
             print(coll_name)
+            item['collectionName'] = coll_name
+            item['museumID'] = 8
             # print(li.xpath('./td/a/@href').extract_first())
             detail_url = 'https://www.shanghaimuseum.net/mu/' + div.xpath('./div[1]/div[1]/a/@href').extract_first()
             # img = div.xpath('./div[1]/div[1]/a/img/@src').extract_first()
@@ -91,15 +101,20 @@ class Collection8Spider(scrapy.Spider):
         # time = 'None'
         # if response.xpath('//*[@id="app"]/div/div/div/div/main/div/div[2]/div[2]/div[1]/div[1]/p/text()').extract():
         #     time = response.xpath('//*[@id="app"]/div/div/div/div/main/div/div[2]/div[2]/div[1]/div[1]/p/text()').extract_first()
-        img = response.xpath('/html/body/div[5]/div/div/div/div[1]/div[1]/div/div/div/a/img/@src').extract()
-        img = ''.join(img)
+        img = response.xpath('/html/body/div[5]/div/div/div/div[1]/div[1]/div/div/div/a/img/@src').extract_first()
+        # img = ''.join(img)
             # if img[0] == '/':
             #     img = 'http://www.zhejiangmuseum.com' + img
         img = 'https://www.shanghaimuseum.net/mu/' + img
-        print(img)
+        # print(img)
         coll_desc = response.xpath('//*[@id="more"]//text()').extract()
         coll_desc = ''.join(coll_desc)
-        print(coll_desc)
+        # print(coll_desc)
+        item['collectionIntroduction'] = coll_desc
+        print(item['collectionIntroduction'])
+        # print(coll_img)
+        item['collectionImage'] = img
+        print(item['collectionImage'])
         # if response.xpath('//*[@id="app"]/div/div/div/div/main/div/div[3]/text()').extract():
         #     coll_desc = ''.join(coll_desc) + ' 年代：' + time 
         # else:
@@ -108,7 +123,7 @@ class Collection8Spider(scrapy.Spider):
         # print(coll_name)
         # print(coll_desc)
         # print(coll_img)
-        # yield item
+        yield item
 
     def closed(self,spider):
         self.bro.quit()

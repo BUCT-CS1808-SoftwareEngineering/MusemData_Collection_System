@@ -137,11 +137,11 @@ class MuseumDownloaderMiddleware:
             bro.get(request.url)
             bro.refresh()
             # bro.refresh()
-            sleep(5)
-            for i in range(5):
+            # sleep(5)
+            for i in range(2):
                 bro.find_element_by_css_selector(".layui-flow-more > a:nth-child(1)").click()
                 sleep(3)
-            sleep(5)
+            # sleep(5)
             page_text = bro.page_source
             js_response = HtmlResponse(url = request.url,body = page_text,encoding = 'utf-8',request = request)
 
