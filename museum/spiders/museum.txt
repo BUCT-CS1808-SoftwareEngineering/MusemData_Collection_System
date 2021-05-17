@@ -1,3 +1,0 @@
-scrapy genspider collection www.xxx.com
-scrapy genspider exhibition www.xxx.com
-scrapy genspider education www.xxx.com

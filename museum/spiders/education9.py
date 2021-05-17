@@ -5,7 +5,7 @@ class Education9Spider(scrapy.Spider):
     name = 'education9'
     # allowed_domains = ['www.xxx.com']
     start_urls = ['http://www.chnmus.net/sitesources/hnsbwy/page_pc/ppjy/sjyjjpxjd/pxdt/list1.html']
-
+    #http://www.chnmus.net/sitesources/hnsbwy/page_pc/ppjy/list1.html
     def parse(self, response):
         item = educationItem()
         li_list = response.xpath('//*[@id="articleListTable"]/ul/li')
