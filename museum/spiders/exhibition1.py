@@ -27,6 +27,7 @@ class Exhibition1Spider(scrapy.Spider):
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36',
         'X-Requested-With': 'XMLHttpRequest'
     }
+    num = 0
 
     def start_requests(self):
         yield scrapy.Request(url=self.start_urls[0], callback=self.parse, headers=self.headers)
@@ -49,6 +50,7 @@ class Exhibition1Spider(scrapy.Spider):
         # print(exhib_location)
         item["exhibIntro"] = exhib_intro
         print(item["exhibIntro"])
+        self.num += 1
         yield item
 
     # https://www.dpm.org.cn/searchs/exhibition/category_id/301/pagesize/6/tpl_file/shows_temporary2_2/exhibition_status/0/showstype/301/order/1/p/2.html

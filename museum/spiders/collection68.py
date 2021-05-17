@@ -4,7 +4,7 @@ import json
 
 
 class Collection46Spider(scrapy.Spider):
-    name = 'collection46'
+    name = 'collection68'
     start_urls = [
         "http://www.ynmuseum.org/appreciate/gem/bronze.html"
     ]

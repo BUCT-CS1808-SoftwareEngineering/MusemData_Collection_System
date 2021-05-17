@@ -21,6 +21,7 @@ class MuseumItem(scrapy.Item):
     # communication = scrapy.Field()
     category = scrapy.Field()
     price = scrapy.Field()
+    img = scrapy.Field()
     # latiLong = scrapy.Field()
 
 # 藏品信息

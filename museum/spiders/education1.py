@@ -6,6 +6,7 @@ class Education1Spider(scrapy.Spider):
     name = 'education1'
     # allowed_domains = ['www.xxx.com']
     start_urls = ['https://www.dpm.org.cn/Events.html']
+    num = 0
 
     def parse_detail(self, response):
         item = response.meta["item"]
@@ -23,6 +24,7 @@ class Education1Spider(scrapy.Spider):
         # content = ''.join(content)
         print(content)
         item['eduContent'] = content
+        self.num += 1
         yield item
 
     def parse(self, response):
