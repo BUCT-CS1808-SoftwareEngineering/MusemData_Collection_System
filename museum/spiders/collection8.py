@@ -11,7 +11,7 @@ from lxml import etree
 class Collection8Spider(scrapy.Spider):
     name = 'collection8'
     # allowed_domains = ['www.xxx.com']
-    start_urls = ['https://www.shanghaimuseum.net/mu/frontend/pg/collection/antique']
+    # start_urls = ['https://www.shanghaimuseum.net/mu/frontend/pg/collection/antique']
 
 
     # {"params":{"langCode":"CHINESE","antiqueSourceCode":"ANTIQUE_SOURCE_1"},"page":1,"limit":20}
