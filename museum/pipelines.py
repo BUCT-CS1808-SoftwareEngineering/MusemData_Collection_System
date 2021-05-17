@@ -16,7 +16,7 @@ class MuseumPipeline:
     cursor = None
     def open_spider(self,spider):
         #连接数据库
-        self.conn = pymysql.Connect(host='149.129.54.32',user = 'root',port = 3306,password = 'A4W^:s3aW33p',db = 'cs1808test',charset = 'utf8')
+        self.conn = pymysql.Connect(host='149.129.54.32',user = 'root',port = 3306,password = '',db = 'cs1808test',charset = 'utf8')
     def process_item(self,item,spider):
         #创建cursor对象
         self.cursor = self.conn.cursor()
@@ -89,7 +89,7 @@ class mysqlPipeLine:
     cursor = None
     def open_spider(self,spider):
         #连接数据库
-        self.conn = pymysql.Connect(host='149.129.54.32',user = 'root',port = 3306,password = 'A4W^:s3aW33p',db = 'cs1808test',charset = 'utf8')
+        self.conn = pymysql.Connect(host='149.129.54.32',user = 'root',port = 3306,password = '',db = 'cs1808test',charset = 'utf8')
     def process_item(self,item,spider):
         #创建cursor对象
         self.cursor = self.conn.cursor()
@@ -109,12 +109,13 @@ class mysqlPipeLine:
 
 
 
+
 class imgPipeLine:
     conn = None
     cursor = None
     def open_spider(self,spider):
         #连接数据库
-        self.conn = pymysql.Connect(host='149.129.54.32',user = 'root',port = 3306,password = 'A4W^:s3aW33p',db = 'cs1808test',charset = 'utf8')
+        self.conn = pymysql.Connect(host='149.129.54.32',user = 'root',port = 3306,password = '',db = 'cs1808test',charset = 'utf8')
     def process_item(self,item,spider):
         #创建cursor对象
         # print(item['museumID'])
@@ -136,3 +137,4 @@ class imgPipeLine:
 
 
 #爬虫文件提交的item类型的对象最终会提交给的管道类：优先级高的
+
