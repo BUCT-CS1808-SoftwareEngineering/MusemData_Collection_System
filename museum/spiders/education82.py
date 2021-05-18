@@ -4,7 +4,7 @@ from museum.items import educationItem
 class Education82Spider(scrapy.Spider):
     name = 'education82'
     #allowed_domains = ['www.xxx.com']
-    start_urls = ['http://www.changjiangcp.com/view/16363.html']
+    start_urls = ['http://www.changjiangcp.com/view/16384.html']
 
     def parse(self, response):
         item = educationItem()
