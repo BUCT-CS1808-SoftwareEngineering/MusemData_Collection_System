@@ -19,7 +19,7 @@ def qutou(s):
     return ss
 class Collection124Spider(scrapy.Spider):
     name = 'collection160'
-    (1,2,1,1,2,1,1,1,2,1)
+    # (1,2,1,1,2,1,1,1,2,1)
     #allowed_domains = ['www.xxx.com']
     start_urls = ['https://www.shmmc.com.cn/Home/ZdzpList']
     url='https://www.slmmm.com/collection/8/%d.html'

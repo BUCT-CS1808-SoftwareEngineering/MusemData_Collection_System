@@ -52,9 +52,9 @@ LOG_LEVEL = 'ERROR'
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-DOWNLOADER_MIDDLEWARES = {
-   'museum.middlewares.MuseumDownloaderMiddleware': 543,
-}
+# DOWNLOADER_MIDDLEWARES = {
+#    'museum.middlewares.MuseumDownloaderMiddleware': 543,
+# }
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -67,8 +67,8 @@ DOWNLOADER_MIDDLEWARES = {
 ITEM_PIPELINES = {
    # 'museum.pipelines.mysqlPipeLine': 300,
    # 'museum.pipelines.MuseumPipeline': 400,
-   # 'museum.pipelines.MuseumTestPipeline':500,
-   'museum.pipelines.imgPipeLine':600,
+   'museum.pipelines.MuseumTestPipeline':500,
+   # 'museum.pipelines.imgPipeLine':600,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
