@@ -8,7 +8,6 @@ class Education87Spider(scrapy.Spider):
 
     def parse_detail(self, response):
         item = response.meta["item"]
-        #/html/body/div/div[1]/div[3]/div/div[2]/div[3]/div
         if response.xpath('/html/body/div/div[1]/div[3]/div/div[2]/div[3]/div/p//text()'):
             edu_desc = response.xpath('/html/body/div/div[1]/div[3]/div/div[2]/div[3]/div/p//text()').extract()
             edu_desc = ''.join(edu_desc)
