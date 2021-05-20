@@ -1,5 +1,5 @@
 import scrapy
-from museum.items import exhibitionItem 
+from museum.items import exhibitionItem
 import json
 #scrapy crawl collection
 #scrapy crawl exhiition
