@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from njmusePro.items import educationItem
+from museum.items import educationItem
 
 class JsbwgjySpider(scrapy.Spider):
     name = 'education203'

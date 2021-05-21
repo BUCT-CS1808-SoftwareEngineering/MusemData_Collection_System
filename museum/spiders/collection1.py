@@ -14,6 +14,11 @@ class Collection1Spider(scrapy.Spider):
     start_urls = ['https://www.dpm.org.cn/collection/ceramics.html']
     # start_urls = ['https://www.dpm.org.cn/collection//category_id/90/p/2.html']
     url = 'https://www.dpm.org.cn/searchs/ceramics/category_id/90/sort/class_sort/dbg/0/p/%d.html'
+    new_urls = []
+    deep_urls = []
+    js1_urls = []
+    js2_urls = []
+    js3_urls = []
     page_num = 2
 
     def parse_detail(self, response):

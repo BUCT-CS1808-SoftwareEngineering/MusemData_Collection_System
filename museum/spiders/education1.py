@@ -6,6 +6,11 @@ class Education1Spider(scrapy.Spider):
     name = 'education1'
     # allowed_domains = ['www.xxx.com']
     start_urls = ['https://www.dpm.org.cn/Events.html']
+    new_urls = []
+    deep_urls = []
+    js1_urls = []
+    js2_urls = []
+    js3_urls = []
     num = 0
 
     def parse_detail(self, response):

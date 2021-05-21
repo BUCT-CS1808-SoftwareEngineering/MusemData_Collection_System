@@ -2,7 +2,7 @@ import scrapy
 from museum.items import exhibitionItem
 import json
 # import string
-# scrapy crawl collection9
+# scrapy crawl exhibition41
 
 
 class Exhibition41Spider(scrapy.Spider):

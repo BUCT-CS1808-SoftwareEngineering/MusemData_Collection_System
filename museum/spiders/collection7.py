@@ -7,6 +7,11 @@ class Collection7Spider(scrapy.Spider):
     # allowed_domains = ['www.xxx.com']
     start_urls = ['http://www.sxhm.com/index.php?page=1&ac=article&at=list&tid=218']
     url = 'http://www.sxhm.com/index.php?page=%d&ac=article&at=list&tid=218'
+    new_urls = []
+    deep_urls = []
+    js1_urls = []
+    js2_urls = []
+    js3_urls = []
     page_num = 2
 
     def parse_detail(self, response):
@@ -19,7 +24,7 @@ class Collection7Spider(scrapy.Spider):
         # print(coll_name)
         print(coll_desc)
         # print(coll_img)
-        # yield item
+        yield item
 
     def parse(self, response):
         item = collectionItem()
@@ -36,9 +41,12 @@ class Collection7Spider(scrapy.Spider):
                 print(coll_img)
             # print(li.xpath('./td/a/@href').extract_first())
                 detail_url = li.xpath('./a/@href').extract_first()
+                item['collectionName']=coll_name
+                item['museumID']=7
+                item['collectionImage']=coll_img
                 yield scrapy.Request(detail_url,callback=self.parse_detail,meta={'item':item})
         
-        if self.page_num <= 2:
+        if self.page_num <= 5:
             new_url = (self.url%self.page_num)
             self.page_num += 1
             yield scrapy.Request(new_url,callback=self.parse)
