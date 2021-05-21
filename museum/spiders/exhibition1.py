@@ -10,6 +10,11 @@ class Exhibition1Spider(scrapy.Spider):
     # allowed_domains = ['www.xxx.com']
     start_urls = ['https://www.dpm.org.cn/searchs/exhibition/category_id/301/pagesize/6.html?0.13021943427510996&tpl_file=shows_temporary2_2&exhibition_status=0&showstype=301&order=1']
     # start_urls =['https://www.dpm.org.cn/searchs/exhibition/category_id/301/pagesize/6/tpl_file/shows_temporary2_2/exhibition_status/0/showstype/301/order/1/p/1.html']
+    new_urls = []
+    deep_urls = []
+    js1_urls = []
+    js2_urls = []
+    js3_urls = []
 
     headers = {
         'Accept': '*/*',

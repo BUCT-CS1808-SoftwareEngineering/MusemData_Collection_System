@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from njmusePro.get_suburl import getsub
-from njmusePro.items import collectionItem
+# from njmusePro.get_suburl import getsub
+from museum.items import collectionItem
 
 class JsbwgSpider(scrapy.Spider):
     name = 'collection203'

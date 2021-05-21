@@ -8,18 +8,22 @@ class Exhibition5Spider(scrapy.Spider):
     start_urls = ['http://www.zhejiangmuseum.com/Exhibition/TemporaryExhibition']
     new_urls = ['http://www.zhejiangmuseum.com/Exhibition/TemporaryExhibition']
     deep_urls = []
+    num = 1
+		
 
 
     #实例化一个
     def __init__(self):
-        self.bro = webdriver.Firefox()
-        self.brom = webdriver.Firefox()
+        options = webdriver.FirefoxOptions()
+        options.add_argument('-headless')
+        self.bro = webdriver.Firefox(options=options)
+        self.brom = webdriver.Firefox(options=options)
     def parse(self, response):
-        item = exhibitionItem()
         li_list = response.xpath('//*[@id="app"]/div/div/div/div/main/ul[2]/li')
         # xp = '/html/body/div[1]/div/div[3]/div/div'
         # num = 1
         for li in li_list:
+            item = exhibitionItem()
             name = li.xpath('./div[1]/a/h3/text()').extract()
             name = ''.join(name)
             print(name)
@@ -31,7 +35,10 @@ class Exhibition5Spider(scrapy.Spider):
             detail_url = "http://www.zhejiangmuseum.com" + li.xpath('./div[1]/a/@href').extract_first()
             print(detail_url)
             self.deep_urls.append(detail_url)
-            yield scrapy.Request(url=detail_url,callback=self.parse_detail)
+            item['exhibName'] = name
+            item['exhibImg'] = img
+            item['museumID'] = 5
+            yield scrapy.Request(url=detail_url,callback=self.parse_detail,meta={'item':item})
             # print(detail_url)
             # brom = webdriver.Firefox()
             # brom.get(detail_url)
@@ -58,6 +65,7 @@ class Exhibition5Spider(scrapy.Spider):
         # bro.quit()
     
     def parse_detail(self, response):
+        item = response.meta["item"]
         cont = response.xpath('//*[@id="app"]/div/div/div/div/main/div[1]/div[4]//text()').extract()
         cont = ''.join(cont)
         time = response.xpath('//*[@id="app"]/div/div/div/div/main/div[1]/div[3]/div[2]/div[1]/div[1]/p/text()').extract()
@@ -66,6 +74,9 @@ class Exhibition5Spider(scrapy.Spider):
         loca = ''.join(loca)
         cont = cont + '\n展览时间：' + time + '\n展览地点：' + loca
         print(cont)
+        item['exhibIntro'] = cont
+        yield item
+        self.num += 1
 
     def closed(self,spider):
         self.bro.quit()

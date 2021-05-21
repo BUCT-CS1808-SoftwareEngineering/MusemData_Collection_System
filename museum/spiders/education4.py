@@ -9,13 +9,21 @@ class Education4Spider(scrapy.Spider):
     name = 'education4'
     # allowed_domains = ['www.xxx.com']
     start_urls = ['https://cstm.cdstm.cn/jyhd/zkgdjt/']
+    new_urls = []
+    deep_urls = []
+    js1_urls = []
+    js2_urls = []
+    js3_urls = []
+    num = 1
 
     def parse_detail(self, response):
         item = response.meta["item"]
         # url = response.meta["url"]
+        item['museumID'] = 4
         name = response.xpath('/html/body/div[4]/div[3]/div[2]/div/h2/text()').extract_first()
         # name = ''.join(name)
         print(name)
+        item['eduName'] = name
         #<p><strong>讲座提纲：</strong></p>\s([\s\S]*?)\s<p>
         content = response.xpath('/html/body/div[4]/div[3]/div[2]/div/div[1]//text()').extract()
         # content = 
@@ -29,18 +37,22 @@ class Education4Spider(scrapy.Spider):
         # content = str(content)
         # content = re.sub(r'<\/?.+?\/?>','',content)
         # content = ''.join(content)
+        item['eduContent'] = content
         print(content)
+        yield item
+        self.num += 1
 
     def parse(self, response):
-        item = educationItem()
         div_list = response.xpath('/html/body/div[4]/div[3]/div[2]/div/div[2]/div/div[@class="jchg-cont"]')
         # print(div_list)
         # //*[@id="hd1-4"]/div[2]/div/div[1]/div/div[4]/div[2]/a/h2
         for div in div_list:
+            item = educationItem()
             img = str(div.xpath('./a/img/@src').extract_first())
             img = img.replace(img[0],'',1)
             img = "https://cstm.cdstm.cn/jyhd/zkgdjt" + img
             print(img)
+            item['eduImg'] = img
             # name = div.xpath('./div[2]/a/h2/text()').extract_first()
             # print(name)
             url = str(div.xpath('./a/@href').extract_first())

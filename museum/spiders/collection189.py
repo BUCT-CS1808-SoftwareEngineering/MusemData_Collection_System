@@ -1,6 +1,6 @@
 import scrapy
 from selenium import webdriver
-from njmusePro.items import collectionItem
+from museum.items import collectionItem
 
 
 class TjzrSpider(scrapy.Spider):

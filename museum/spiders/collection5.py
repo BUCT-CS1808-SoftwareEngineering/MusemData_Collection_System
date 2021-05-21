@@ -13,15 +13,18 @@ class Collection5Spider(scrapy.Spider):
 
     #实例化一个
     def __init__(self):
-        self.bro = webdriver.Firefox()
-        self.brom = webdriver.Firefox()
+        options = webdriver.FirefoxOptions()
+        options.add_argument('-headless')
+        self.bro = webdriver.Firefox(options=options)
+        self.brom = webdriver.Firefox(options=options)
 
     def parse(self, response):
-        item = collectionItem()
+        
         # //*[@id="building2"]/div/div[2]/table/tbody
         coll_list = response.xpath('//*[@id="app"]/div/div/div/div/main/ul/li[@class="col-list-i"]')
         # print(coll_list)
         for li in coll_list:
+            item = collectionItem()
             # if li.xpath('./td/a/text()').extract_first() != None:
                 # //*[@id="227613"]/text()
             coll_name = li.xpath('./a/h3/text()').extract_first()
@@ -34,6 +37,9 @@ class Collection5Spider(scrapy.Spider):
                 img = 'http://www.zhejiangmuseum.com' + img
             print(img)
             self.deep_urls.append(detail_url)
+            item['collectionName']=coll_name
+            item['museumID']=5
+            item['collectionImage']=img
             yield scrapy.Request(detail_url,callback=self.parse_detail,meta={'item':item})
         
         if self.page_num <= 291:
@@ -57,8 +63,9 @@ class Collection5Spider(scrapy.Spider):
         # coll_img = response.xpath('//*[@id="hl_content"]/div/div[1]/div/div/div/img/@src').extract_first()
         # print(coll_name)
         print(coll_desc)
+        item['collectionIntroduction']=coll_desc
         # print(coll_img)
-        # yield item
+        yield item
 
     def closed(self,spider):
         self.bro.quit()

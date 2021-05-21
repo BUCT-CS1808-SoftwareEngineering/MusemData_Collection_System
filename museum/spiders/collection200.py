@@ -4,7 +4,7 @@ import scrapy
 from selenium import webdriver
 
 class CiaeSpider(scrapy.Spider):
-    name = 'collection100'
+    name = 'collection200'
     # allowed_domains = ['www.xxx.com']
     start_urls = ['https://www.ciae.com.cn/collection/detail/zh/1133.html',
                   'https://www.ciae.com.cn/collection/detail/zh/1191.html',

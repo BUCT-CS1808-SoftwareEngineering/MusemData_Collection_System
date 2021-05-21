@@ -9,6 +9,12 @@ class Education6Spider(scrapy.Spider):
     start_urls = ['http://www.njmuseum.com/api/edu/select?code=nb_lecture_hall&pageSize=6&pageNum=1']
     # new_urls = ['http://www.njmuseum.com/zh/educationIndex']
     # deep_urls = []
+    new_urls = []
+    deep_urls = []
+    js1_urls = []
+    js2_urls = []
+    js3_urls = []
+    num = 1
 
     # # def start_requests(self):
     # #     url = 'http://www.njmuseum.com/zh/educationIndex'
@@ -94,8 +100,8 @@ class Education6Spider(scrapy.Spider):
 
 
     def parse(self, response):
-        item = educationItem()
         coll_list = json.loads(response.text)["data"]["list"]
+        item = educationItem()
         for i in coll_list:
             collectionName = i["title"]
             collectionName = ''.join(collectionName)
@@ -104,3 +110,9 @@ class Education6Spider(scrapy.Spider):
             collectionImageUrl = i["covers"]
             collectionImageUrl = 'http://www.njmuseum.com' + ''.join(collectionImageUrl)
             print((collectionName, collectionDescription, collectionImageUrl))
+            item['museumID'] = 6
+            item['eduName'] = collectionName
+            item['eduImg'] = collectionImageUrl
+            item['eduContent'] = collectionDescription
+            yield item
+            self.num += 1

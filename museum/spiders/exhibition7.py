@@ -6,6 +6,11 @@ class Exhibition7Spider(scrapy.Spider):
     name = 'exhibition7'
     # allowed_domains = ['www.xxx.com']
     start_urls = ['http://www.sxhm.com/index.php?page=1&ac=article&at=list&tid=196']
+    new_urls = []
+    deep_urls = []
+    js1_urls = []
+    js2_urls = []
+    js3_urls = []
 
     def parse(self, response):
         item = exhibitionItem()
@@ -26,7 +31,7 @@ class Exhibition7Spider(scrapy.Spider):
             detail_url = div.xpath('./a/@href').extract_first()
             print(detail_url)
             # self.deep_urls.append(detail_url)
-            yield scrapy.Request(url=detail_url,callback=self.parse_detail)
+            yield scrapy.Request(url=detail_url,callback=self.parse_detail,meta={'item':item})
             # print(detail_url)
             # brom = webdriver.Firefox()
             # brom.get(detail_url)

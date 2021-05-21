@@ -10,6 +10,7 @@ class Collection6Spider(scrapy.Spider):
     js1_urls = ['http://www.njmuseum.com/zh/collectionList']
     # url = 'http://www.njmuseum.com/zh/collectionList'
     page_num = 0
+    # num = 1
 
     # headers = {
     #     'Accept':'application/json, text/plain, */*',
@@ -32,9 +33,11 @@ class Collection6Spider(scrapy.Spider):
 
     #实例化一个
     def __init__(self):
-        self.bro = webdriver.Firefox()
+        options = webdriver.FirefoxOptions()
+        options.add_argument('-headless')
+        self.bro = webdriver.Firefox(options=options)
         self.bro.set_window_size(960, 960)
-        self.brom = webdriver.Firefox()
+        self.brom = webdriver.Firefox(options=options)
         
     def parse(self, response):
         # i = 0
@@ -47,13 +50,13 @@ class Collection6Spider(scrapy.Spider):
         
         # self.bro.find_element_by_xpath(("//*[text()='%d']")%self.page_num).click()
             # i += 1
-        item = collectionItem()
         # //*[@id="building2"]/div/div[2]/table/tbody
         coll_list = response.xpath('/html/body/div/div[3]/div/section/div[3]/div[2]/div[2]/div')
         
         # print(coll_list)
         # for i in range(2):
         for div in coll_list:
+            item = collectionItem()
             # if li.xpath('./td/a/text()').extract_first() != None:
                 # //*[@id="227613"]/text()
             coll_name = div.xpath('./a/div[2]/h5/text()').extract_first()
@@ -67,6 +70,9 @@ class Collection6Spider(scrapy.Spider):
             img = 'http://www.njmuseum.com' + img
             print(img)
             self.deep_urls.append(detail_url)
+            item['collectionName']=coll_name
+            item['museumID']=6
+            item['collectionImage']=img
             yield scrapy.Request(detail_url,callback=self.parse_detail,meta={'item':item})
             # self.bro.find_element_by_class_name('btn-next').click()
         # if self.page_num <= 3:
@@ -93,7 +99,8 @@ class Collection6Spider(scrapy.Spider):
         # print(coll_name)
         # print(coll_desc)
         # print(coll_img)
-        # yield item
+        item['collectionIntroduction']=coll_desc
+        yield item
 
     def closed(self,spider):
         self.bro.quit()

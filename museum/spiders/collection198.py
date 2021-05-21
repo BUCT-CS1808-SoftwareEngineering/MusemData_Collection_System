@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from njmusePro.get_suburl import getsub
+# from njmusePro.get_suburl import getsub
 
 class BjzrSpider(scrapy.Spider):
     name = 'collection198'

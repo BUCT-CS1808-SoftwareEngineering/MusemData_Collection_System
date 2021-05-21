@@ -1,6 +1,6 @@
 import scrapy
 from selenium import webdriver
-from njmusePro.items import educationItem
+from museum.items import educationItem
 
 class Education189Spider(scrapy.Spider):
     name = 'education189'
