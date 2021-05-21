@@ -11,7 +11,7 @@ class Education9Spider(scrapy.Spider):
     start_urls = ['http://www.mtybwg.org.cn/zhanlan/105-1.aspx']
 
     def parse(self, response):
-        item = educationItem()
+        item = exhibitionItem()
         #scrapy crawl exhibition131
         div_list = response.xpath('//*[@id="container"]/li')
         for li in div_list:

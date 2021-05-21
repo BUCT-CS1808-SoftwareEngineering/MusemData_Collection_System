@@ -1,5 +1,5 @@
 import scrapy
-from museum.items import educationItem
+from museum.items import exhibitionItem
 #scrapy crawl collection
 #scrapy crawl exhiition
 #scrapy genspider collection//www.xxx.com
@@ -11,7 +11,7 @@ class Education9Spider(scrapy.Spider):
     start_urls = ['https://www.nanhujng.com/clzl/jbcl/']
     i=1
     def parse(self, response):
-        item = educationItem()
+        item = exhibitionItem()
         #scrapy crawl exhibition142
         div_list = response.xpath('/html/body/div[6]/div[1]/div[2]/div[2]/ul/li')
         for li in div_list:
