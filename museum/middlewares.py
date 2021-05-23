@@ -122,7 +122,7 @@ class MuseumDownloaderMiddleware:
             bro.refresh()
             # bro.refresh()
             sleep(5)
-            for i in range(3):
+            for i in range(6):
                 bro.find_element_by_css_selector("div.load-more").click()
             sleep(5)
             page_text = bro.page_source

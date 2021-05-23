@@ -11,20 +11,23 @@ class Exhibition13Spider(scrapy.Spider):
     new_urls = ['http://www.wuhouci.net.cn/ztzl.html']
     # deep_urls = []
     # url = "http://www.wuhouci.net.cn/ztzl-detail.html#id=%s"
+    num = 1
 
 
     #实例化一个
     def __init__(self):
-        self.bro = webdriver.Firefox()
+        options = webdriver.FirefoxOptions()
+        options.add_argument('-headless')
+        self.bro = webdriver.Firefox(options=options)
         # self.brom = webdriver.Firefox()
     def parse(self, response):
-        item = exhibitionItem()
         div_list = response.xpath('/html/body/section[2]/div[2]/div[3]/ul//li')
-        data_list = response.xpath('/html/body/section[2]/div[2]/div[3]/ul/li//@data-id').extract()
+        # data_list = response.xpath('/html/body/section[2]/div[2]/div[3]/ul/li//@data-id').extract()
         # num = 0
         # xp = '/html/body/div[1]/div/div[3]/div/div'
         # num = 1
         for div in div_list:
+            item = exhibitionItem()
             name = div.xpath('./div[2]/div[@class="title"]/text()').extract()
             name = ''.join(name)
             print(name)
@@ -39,6 +42,12 @@ class Exhibition13Spider(scrapy.Spider):
             img = div.xpath('./div[1]/div[1]/@style').extract_first()
             img = "http://www.wuhouci.net.cn" + re.search('(?<=\()\S+(?=\))',img).group()
             print(img)
+            item['exhibImg'] = img
+            item['exhibName'] = name
+            item['exhibIntro'] = cont
+            item['museumID'] = 13
+            yield item
+            self.num += 1
             # item['exhibImg'] = img
             # coid = div.xpath('./@data-id').extract()
             # coid = ''.join(coid)

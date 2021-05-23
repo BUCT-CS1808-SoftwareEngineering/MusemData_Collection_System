@@ -12,6 +12,11 @@ class Collection10Spider(scrapy.Spider):
     url = 'https://www.hongyan.info/index/news_list/c_id/35/m/Home/p/%d.html'
     cot = 0
     page_num = 2
+    new_urls = []
+    deep_urls = []
+    js1_urls = []
+    js2_urls = []
+    js3_urls = []
     # co_list = ['qtq','tq','yq','cq','sk','qt']
     # co_page = [10,8,3,4,1,2]
 
@@ -23,11 +28,11 @@ class Collection10Spider(scrapy.Spider):
         coll_desc = ''.join(coll_desc)
         # print(coll_name)
         print(coll_desc)
+        item['collectionIntroduction']=coll_desc
             
-        # yield item
+        yield item
 
     def parse(self, response):
-        item = collectionItem()
         # maxn = response.xpath('//*[@class="active"]/text()').extract_first()
         # maxn = ''.join(maxn)
         # maxn = int(maxn)
@@ -37,6 +42,7 @@ class Collection10Spider(scrapy.Spider):
         coll_list = response.xpath('/html/body/div[8]/div[2]/div/div[@class = "product-list"]')
         print(coll_list)
         for div in coll_list:
+            item = collectionItem()
             div_list = div.xpath('./div')
             for li in div_list:
             # //*[@id="227613"]/text()
@@ -49,6 +55,9 @@ class Collection10Spider(scrapy.Spider):
                 coll_img = li.xpath('./a/img/@src').extract_first()
                 coll_img = 'https://www.hongyan.info' + coll_img
                 print(coll_img)
+                item['collectionName']=coll_name
+                item['museumID']=10
+                item['collectionImage']=coll_img
                 yield scrapy.Request(detail_url,callback=self.parse_detail,meta={'item':item})
         
         if self.page_num <= 3:

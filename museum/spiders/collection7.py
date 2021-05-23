@@ -23,21 +23,22 @@ class Collection7Spider(scrapy.Spider):
         # coll_img = 'http://www.sxhm.com' + coll_img
         # print(coll_name)
         print(coll_desc)
+        item['collectionIntroduction'] = coll_desc
         # print(coll_img)
         yield item
 
     def parse(self, response):
-        item = collectionItem()
         # //*[@id="building2"]/div/div[2]/table/tbody
         coll_list = response.xpath('/html/body/div[3]/div[2]/div[2]/ul/li')
         for li in coll_list:
             if li.xpath('./a/span/text()').extract_first() != None:
                 # //*[@id="227613"]/text()
+                item = collectionItem()
                 coll_name = li.xpath('./a/span/text()').extract_first()
                 # coll_name = ''.join(coll_name)
                 print(coll_name)
                 coll_img = li.xpath('./a/img/@src').extract_first()
-                coll_img = 'http://www.sxhm.com' + coll_img
+                coll_img = 'http://www.sxhm.com/' + coll_img
                 print(coll_img)
             # print(li.xpath('./td/a/@href').extract_first())
                 detail_url = li.xpath('./a/@href').extract_first()

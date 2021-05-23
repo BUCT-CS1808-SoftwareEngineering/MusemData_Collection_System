@@ -107,8 +107,9 @@ class Education6Spider(scrapy.Spider):
             collectionName = ''.join(collectionName)
             collectionDescription = i["describe"]
             collectionDescription = ''.join(collectionDescription)
-            collectionImageUrl = i["covers"]
-            collectionImageUrl = 'http://www.njmuseum.com' + ''.join(collectionImageUrl)
+            collectionImageUrl = ''.join(i["covers"])
+            if collectionImageUrl[0] == '/':
+                collectionImageUrl = 'http://www.njmuseum.com' + collectionImageUrl
             print((collectionName, collectionDescription, collectionImageUrl))
             item['museumID'] = 6
             item['eduName'] = collectionName

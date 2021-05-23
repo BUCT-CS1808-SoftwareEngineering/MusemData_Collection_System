@@ -28,10 +28,13 @@ class Education3Spider(scrapy.Spider):
             item['museumID'] = 3
             name = div.xpath('./div[5]/div[1]/text()').extract()
             name = ''.join(name)
-            print(name)
+            # print(name)
             item['eduName'] = name
-            img = div.xpath('./div[4]/@data-src').extract()
-            img = ''.join(img)
+            img = div.xpath('./div[4]/@data-src').extract_first()
+            # img = ''.join(img)
+            print(img)
+            if img[0] == "/":
+                img = "http://www.sstm.org.cn" + img
             print(img)
             item['eduImg'] = img
             time = div.xpath('./div[5]/div[2]/span[2]/text()').extract()
@@ -39,7 +42,7 @@ class Education3Spider(scrapy.Spider):
             cont = div.xpath('./div[5]/div[3]/div[3]/text()').extract()
             cont = ''.join(cont)
             cont = cont + ' 活动时间：' + time
-            print(cont)
+            # print(cont)
             item['eduContent'] = cont
             yield item
             self.num += 1

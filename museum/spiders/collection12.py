@@ -52,7 +52,9 @@ class Collection12Spider(scrapy.Spider):
 
     #实例化一个
     def __init__(self):
-        self.bro = webdriver.Firefox()
+        options = webdriver.FirefoxOptions()
+        options.add_argument('-headless')
+        self.bro = webdriver.Firefox(options=options)
         # self.bro.set_window_size(960, 960)
         # self.brom = webdriver.Firefox()
         
@@ -67,13 +69,13 @@ class Collection12Spider(scrapy.Spider):
         
         # self.bro.find_element_by_xpath(("//*[text()='%d']")%self.page_num).click()
             # i += 1
-        item = collectionItem()
         # //*[@id="building2"]/div/div[2]/table/tbody
         coll_list = response.xpath('/html/body/table[2]/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr[2]/td/div')
         
         # print(coll_list)
         # for i in range(2):
         for div in coll_list:
+            item = collectionItem()
             # if li.xpath('./td/a/text()').extract_first() != None:
                 # //*[@id="227613"]/text()
             coll_name = div.xpath('./table/tbody/tr[2]/td/div/a/text()').extract_first()
@@ -87,13 +89,18 @@ class Collection12Spider(scrapy.Spider):
             #     img = 'http://www.zhejiangmuseum.com' + img
             img = 'http://www.ssmzd.com' + img
             print(img)
-            cont = 'None'
+            cont = '暂无'
+            item['collectionName']=coll_name
+            item['museumID']=12
+            item['collectionImage']=img
+            item['collectionIntroduction']=cont
+            yield item
             # self.deep_urls.append(detail_url)
             # yield scrapy.Request(detail_url,callback=self.parse_detail,meta={'item':item})
             # self.bro.find_element_by_class_name('btn-next').click()
         # if self.page_num <= 3:
         #     # new_url = (self.url%self.page_num)
-        if self.page_num <= 3:
+        if self.page_num <= 12:
             # new_url = (self.url%(self.co_list[self.cot],self.page_num))
             new_url = (self.url%self.page_num)
             self.new_urls.append(new_url)

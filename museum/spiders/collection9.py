@@ -10,6 +10,11 @@ class Collection9Spider(scrapy.Spider):
     url = 'http://www.chnmus.net/sitesources/hnsbwy/page_pc/dzjp/zpjc/qtq/list%d.html'
     cot = 0
     page_num = 2
+    new_urls = []
+    deep_urls = []
+    js1_urls = []
+    js2_urls = []
+    js3_urls = []
     # co_list = ['qtq','tq','yq','cq','sk','qt']
     # co_page = [10,8,3,4,1,2]
 
@@ -22,11 +27,12 @@ class Collection9Spider(scrapy.Spider):
            
         # print(coll_name)
             print(coll_desc)
-            
-        # yield item
+            item['collectionIntroduction']=coll_desc
+        else:
+            item['collectionIntroduction']=coll_desc = '暂无'
+        yield item
 
     def parse(self, response):
-        item = collectionItem()
         # maxn = response.xpath('//*[@class="active"]/text()').extract_first()
         # maxn = ''.join(maxn)
         # maxn = int(maxn)
@@ -35,6 +41,7 @@ class Collection9Spider(scrapy.Spider):
         #     self.cot += 1
         coll_list = response.xpath('//*[@id="articleListTable"]/ul/li')
         for li in coll_list:
+            item = collectionItem()
             # //*[@id="227613"]/text()
             coll_name = li.xpath('./a/h5/text()').extract_first()
             # coll_name = ''.join(coll_name)
@@ -43,6 +50,9 @@ class Collection9Spider(scrapy.Spider):
             detail_url = 'http://www.chnmus.net' + li.xpath('./a/@href').extract_first()
             coll_img = li.xpath('./a/img/@src').extract_first()
             coll_img = 'http://www.chnmus.net' + coll_img
+            item['collectionName']=coll_name
+            item['museumID']=9
+            item['collectionImage']=coll_img
             print(coll_img)
             yield scrapy.Request(detail_url,callback=self.parse_detail,meta={'item':item})
         

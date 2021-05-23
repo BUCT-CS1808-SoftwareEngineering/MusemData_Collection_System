@@ -30,6 +30,8 @@ class Collection1Spider(scrapy.Spider):
         # print(coll_name)
         # print(coll_desc)
         item['collectionIntroduction'] = coll_desc
+        if coll_img[0] == '/':
+             coll_img = "https://img.dpm.org.cn" + coll_img
         print(item['collectionIntroduction'])
         # print(coll_img)
         item['collectionImage'] = coll_img
@@ -54,7 +56,7 @@ class Collection1Spider(scrapy.Spider):
                 detail_url = 'https://www.dpm.org.cn/' + li.xpath('./td/a/@href').extract_first()
                 yield scrapy.Request(detail_url,callback=self.parse_detail,meta={'item':item})
         
-        if self.page_num <= 2:
+        if self.page_num <= 50:
             new_url = (self.url%self.page_num)
             self.page_num += 1
             yield scrapy.Request(new_url,callback=self.parse)
