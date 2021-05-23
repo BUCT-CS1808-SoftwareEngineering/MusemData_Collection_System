@@ -156,7 +156,7 @@ class MuseumPipeline:
     cursor = None
     def open_spider(self,spider):
         #连接数据库
-        self.conn = pymysql.Connect(host='149.129.54.32',user = 'root',port = 3306,password = 'A4W^:s3aW33p',db = 'cs1808test',charset = 'utf8')
+        self.conn = pymysql.Connect(host='192.144.230.213',user = 'root',port = 3306,password = 'Cs1808!!!',db = 'cs1808test',charset = 'utf8')
     def process_item(self,item,spider):
         #创建cursor对象
         self.cursor = self.conn.cursor()
@@ -229,7 +229,7 @@ class mysqlPipeLine:
     cursor = None
     def open_spider(self,spider):
         #连接数据库
-        self.conn = pymysql.Connect(host='149.129.54.32',user = 'root',port = 3306,password = '',db = 'cs1808test',charset = 'utf8')
+        self.conn = pymysql.Connect(host='192.144.230.213',user = 'root',port = 3306,password = '',db = 'cs1808test',charset = 'utf8')
     def process_item(self,item,spider):
         #创建cursor对象
         self.cursor = self.conn.cursor()
@@ -255,7 +255,7 @@ class imgPipeLine:
     cursor = None
     def open_spider(self,spider):
         #连接数据库
-        self.conn = pymysql.Connect(host='149.129.54.32',user = 'root',port = 3306,password = '',db = 'cs1808test',charset = 'utf8')
+        self.conn = pymysql.Connect(host='192.144.230.213',user = 'root',port = 3306,password = '',db = 'cs1808test',charset = 'utf8')
     def process_item(self,item,spider):
         #创建cursor对象
         # print(item['museumID'])

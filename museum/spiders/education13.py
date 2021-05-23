@@ -10,6 +10,7 @@ class Education13Spider(scrapy.Spider):
 
     new_urls = ['http://www.wuhouci.net.cn/xshd.html']
     # deep_urls = []
+    num = 1
 
     # def start_requests(self):
     #     url = 'http://www.njmuseum.com/zh/educationIndex'
@@ -28,16 +29,18 @@ class Education13Spider(scrapy.Spider):
 
     #实例化一个
     def __init__(self):
-        self.bro = webdriver.Firefox()
+        options = webdriver.FirefoxOptions()
+        options.add_argument('-headless')
+        self.bro = webdriver.Firefox(options=options)
         # self.brom = webdriver.Firefox()
     def parse(self, response):
-        item = educationItem()
         # /html/body/section[2]/div[2]/div[2]/ul
         li_list = response.xpath('/html/body/section[2]/div[2]/div[2]/ul/li')
         # print(li_list)
         # xp = '/html/body/div[1]/div/div[3]/div/div'
         # num = 1
         for li in li_list:
+            item = educationItem()
             name = li.xpath('./div[@class="title"]//text()').extract()
             name = ''.join(name)
             print(name)
@@ -52,6 +55,12 @@ class Education13Spider(scrapy.Spider):
             time = ''.join(time)
             cont = cont + '\n时间：' + time
             print(cont)
+            item['eduContent'] = cont
+            item['museumID'] = 13
+            item['eduName'] = name
+            item['eduImg'] = img
+            yield item
+            self.num += 1
             # item['exhibName'] = name
            
             # item['exhibImg'] = img

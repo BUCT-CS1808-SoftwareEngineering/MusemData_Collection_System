@@ -10,23 +10,27 @@ class Exhibition8Spider(scrapy.Spider):
     deep_urls = []
     js1_urls = []
     js2_urls = []
+    num = 1
 
     def __init__(self):
-        self.bro = webdriver.Firefox()
-        self.brom = webdriver.Firefox()
+        options = webdriver.FirefoxOptions()
+        options.add_argument('-headless')
+        self.bro = webdriver.Firefox(options=options)
+        self.brom = webdriver.Firefox(options=options)
     def parse(self, response):
-        item = exhibitionItem()
         # item = collectionItem()
         # //*[@id="building2"]/div/div[2]/table/tbody
         li_list = response.xpath('//*[@id="list1"]/li')
         # print(coll_list)
         # for i in range(2):
         for div in li_list:
+            item = exhibitionItem()
             # if li.xpath('./td/a/text()').extract_first() != None:
                 # //*[@id="227613"]/text()
             name = div.xpath('./div[2]/text()').extract_first()
             # coll_name = ''.join(coll_name)
             print(name)
+            item['exhibName'] = name
             # print(li.xpath('./td/a/@href').extract_first())
             detail_url = 'https://www.shanghaimuseum.net/mu/' + div.xpath('./div[1]/a/@href').extract_first()
             # img = div.xpath('./div[1]/div[1]/a/img/@src').extract_first()
@@ -76,6 +80,11 @@ class Exhibition8Spider(scrapy.Spider):
         coll_desc = response.xpath('/html/body/div[4]/div/div/div[2]//text()').extract()
         coll_desc = ''.join(coll_desc)
         print(coll_desc)
+        item['museumID'] = 8
+        item['exhibIntro'] = coll_desc
+        item['exhibImg'] = img
+        yield item
+        self.num += 1
 
     def closed(self,spider):
         self.bro.quit()

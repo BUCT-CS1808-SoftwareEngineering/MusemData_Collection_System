@@ -1,6 +1,6 @@
 import scrapy
 from  selenium import webdriver 
-from museum.items import exhibitionItem 
+from museum.items import educationItem 
 # scrapy crawl education12
 
 class Education12Spider(scrapy.Spider):
@@ -11,19 +11,22 @@ class Education12Spider(scrapy.Spider):
     start_urls = ['http://www.ssmzd.com/xuanchuanj/shehuihuodong/Index.html']
     new_urls = ['http://www.ssmzd.com/xuanchuanj/shehuihuodong/Index.html']
     # deep_urls = []
+    num = 1
 
 
     #实例化一个
     def __init__(self):
-        self.bro = webdriver.Firefox()
+        options = webdriver.FirefoxOptions()
+        options.add_argument('-headless')
+        self.bro = webdriver.Firefox(options=options)
         # self.brom = webdriver.Firefox()
     def parse(self, response):
-        item = exhibitionItem()
         div_list = response.xpath('//*[@id="p_list"]/div')
         # //*[@id="p_item"]/table/tbody/tr[2]/td/div/a
         # xp = '/html/body/div[1]/div/div[3]/div/div'
         # num = 1
         for div in div_list:
+            item = educationItem()
             # if div.xpath('./tbody/tr/td[2]/table[1]/tbody/tr/td/a/text()').extract():
             name = div.xpath('./table/tbody/tr[2]/td/div/a/text()').extract()
             # /html/body/table[2]/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr[2]/td/table[2]/tbody/tr/td[2]/table[1]/tbody/tr/td/a
@@ -32,20 +35,24 @@ class Education12Spider(scrapy.Spider):
             # /html/body/table[2]/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr[2]/td/table[2]/tbody/tr/td[1]/table/tbody/tr/td/a/img
             name = ''.join(name)
             print(name)
-            item['exhibName'] = name
+            item['eduName'] = name
             # //*[@id="p_item"]/table/tbody/tr[1]/td/table/tbody/tr/td/a/img
             img = div.xpath('./table/tbody/tr[1]/td/table/tbody/tr/td/a/img/@src').extract()
             img = ''.join(img)
             # if img[0] == '/':
             img = 'http://www.ssmzd.com' + img
             print(img)
-            item['exhibImg'] = img
+            item['eduImg'] = img
             # detail_url = "http://www.njmuseum.com" + div.xpath('./a/@href').extract_first()
             # print(detail_url)
-            cont = div.xpath('./table/tbody/tr[2]/td/div/a/@href').extract()
-            cont = ''.join(cont)
-            cont = 'http://www.ssmzd.com' + cont
-            print(cont)
+            # cont = div.xpath('./table/tbody/tr[2]/td/div/a/@href').extract()
+            # cont = ''.join(cont)
+            # cont = 'http://www.ssmzd.com' + cont
+            # print(cont)
+            item['eduContent'] = '暂无'
+            item['museumID'] = 12
+            yield item
+            self.num += 1
             # self.deep_urls.append(detail_url)
             # yield scrapy.Request(url=detail_url,callback=self.parse_detail)
             # print(detail_url)

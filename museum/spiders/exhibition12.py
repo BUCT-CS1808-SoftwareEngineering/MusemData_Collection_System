@@ -10,19 +10,22 @@ class Exhibition12Spider(scrapy.Spider):
     start_urls = ['http://www.ssmzd.com/jngclzl/LinShiZhanLan/Index.html']
     new_urls = ['http://www.ssmzd.com/jngclzl/LinShiZhanLan/Index.html']
     # deep_urls = []
+    num = 1
 
 
     #实例化一个
     def __init__(self):
-        self.bro = webdriver.Firefox()
+        options = webdriver.FirefoxOptions()
+        options.add_argument('-headless')
+        self.bro = webdriver.Firefox(options=options)
         # self.brom = webdriver.Firefox()
     def parse(self, response):
-        item = exhibitionItem()
         div_list = response.xpath('/html/body/table[2]/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr[2]/td/table')
         # xp = '/html/body/div[1]/div/div[3]/div/div'
         # num = 1
         for div in div_list:
             if div.xpath('./tbody/tr/td[2]/table[1]/tbody/tr/td/a/text()').extract():
+                item = exhibitionItem()
                 name = div.xpath('./tbody/tr/td[2]/table[1]/tbody/tr/td/a/text()').extract()
                 # /html/body/table[2]/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr[2]/td/table[2]/tbody/tr/td[2]/table[1]/tbody/tr/td/a
                 # /html/body/table[2]/tbody/tr/td/table/tbody/tr[2]/td[2]/table/tbody/tr[2]/td/table
@@ -42,6 +45,10 @@ class Exhibition12Spider(scrapy.Spider):
                 cont = div.xpath('.//tbody/tr/td[2]/table[2]/tbody/tr/td//text()').extract()
                 cont = ''.join(cont)
                 print(cont)
+                item['exhibIntro'] = cont
+                item['museumID'] = 12
+                yield item
+                self.num += 1
             # self.deep_urls.append(detail_url)
             # yield scrapy.Request(url=detail_url,callback=self.parse_detail)
             # print(detail_url)

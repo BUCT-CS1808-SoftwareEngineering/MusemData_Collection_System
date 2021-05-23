@@ -15,15 +15,17 @@ class Collection14Spider(scrapy.Spider):
 
     #实例化一个
     def __init__(self):
-        self.bro = webdriver.Firefox()
+        options = webdriver.FirefoxOptions()
+        options.add_argument('-headless')
+        self.bro = webdriver.Firefox(options=options)
         # self.brom = webdriver.Firefox()
 
     def parse(self, response):
-        item = collectionItem()
         # //*[@id="building2"]/div/div[2]/table/tbody
         coll_list = response.xpath('/html/body/div[2]/div[2]/div[3]/div')
         # print(coll_list)
         for li in coll_list:
+            item = collectionItem()
             # if li.xpath('./td/a/text()').extract_first() != None:
                 # //*[@id="227613"]/text()
             coll_name = li.xpath('./div[2]/p/span[2]/text()').extract_first()
@@ -37,6 +39,11 @@ class Collection14Spider(scrapy.Spider):
             print(img)
             cont = "时代：" + li.xpath('./div[2]/p[3]/span[2]/text()').extract_first() + "\n级别：" + li.xpath('./div[2]/p[4]/span[2]/text()').extract_first() + "\n现状：" + li.xpath('./div[2]/p[5]/span[2]/text()').extract_first()
             print(cont)
+            item['collectionName']=coll_name
+            item['museumID']=14
+            item['collectionImage']=img
+            item['collectionIntroduction']=cont
+            yield item
             # self.deep_urls.append(detail_url)
             # yield scrapy.Request(detail_url,callback=self.parse_detail,meta={'item':item})
         

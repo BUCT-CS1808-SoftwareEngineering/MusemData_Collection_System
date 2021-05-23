@@ -1,6 +1,7 @@
 import scrapy
 from museum.items import collectionItem
 from selenium import webdriver
+import re
 # scrapy crawl collection6
 class Collection6Spider(scrapy.Spider):
     name = 'collection6'
@@ -68,6 +69,9 @@ class Collection6Spider(scrapy.Spider):
             # if img[0] == '/':
             #     img = 'http://www.zhejiangmuseum.com' + img
             img = 'http://www.njmuseum.com' + img
+            # img = re.sub("\\\\","/",img)
+            # img = re.sub('\\','/',img)
+            img = img.replace('\\','/')
             print(img)
             self.deep_urls.append(detail_url)
             item['collectionName']=coll_name

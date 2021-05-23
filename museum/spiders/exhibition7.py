@@ -11,13 +11,14 @@ class Exhibition7Spider(scrapy.Spider):
     js1_urls = []
     js2_urls = []
     js3_urls = []
+    num = 1
 
     def parse(self, response):
-        item = exhibitionItem()
         div_list = response.xpath('/html/body/div[3]/div[2]/div[2]/ul/li')
         # xp = '/html/body/div[1]/div/div[3]/div/div'
         # num = 1
         for div in div_list:
+            item = exhibitionItem()
             name = div.xpath('./a/span/text()').extract()
             name = ''.join(name)
             print(name)
@@ -58,17 +59,23 @@ class Exhibition7Spider(scrapy.Spider):
         # bro.quit()
     
     def parse_detail(self, response):
-        img = response.xpath('/html/body/div[3]/div[2]/div[2]/div[3]/p[2]/img[1]/@src').extract()
-        img = ''.join(img)
+        item = response.meta["item"]
+        img = response.xpath('/html/body/div[3]/div[2]/div[2]//img/@src').extract_first()
+        # img = ''.join(img)
         # if img[0] == '/':
         img = 'http://www.sxhm.com' + img
         print(img)
         # item['exhibImg'] = img
         cont = response.xpath('/html/body/div[3]/div[2]/div[2]/div[3]//text()').extract()
         cont = ''.join(cont)
+        item['museumID'] = 7
+        item['exhibIntro'] = cont
+        item['exhibImg'] = img
         # time = response.xpath('//*[@id="展品概述"]/div[1]/div/div[2]/p[1]/span/text()').extract()
         # time = ''.join(time)
         # loca = response.xpath('//*[@id="展品概述"]/div[1]/div/div[2]/p[2]/span/text()').extract()
         # loca = ''.join(loca)
         # cont = cont + '\n展览时间：' + time + '\n展览地点：' + loca
         print(cont)
+        yield item
+        self.num += 1
